@@ -52,6 +52,8 @@ public:
 
     void enableDebugging(Stream& debugStream = Serial);
     void disableDebugging();
+    
+    void sendMessage(uint8_t *message, uint8_t messageSize);
 
 protected:
     virtual void sendPacket(uint8_t *packet, uint8_t packetSize) = 0;
@@ -74,7 +76,6 @@ private:
         MMC_RESET         = 0x0D,
         //TODO: Write, Goto, Shuttle
     };
-    void sendMessage(uint8_t *message, uint8_t messageSize);
     void sendMMC(mmc_t command);
     void (*noteOnCallback)(uint8_t, uint8_t, uint8_t, uint16_t) = nullptr;
     void (*noteOffCallback)(uint8_t, uint8_t, uint8_t, uint16_t) = nullptr;
