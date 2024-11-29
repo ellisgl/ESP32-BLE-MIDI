@@ -1,11 +1,11 @@
-#ifndef BLE_MIDI_BASE_H
-#define BLE_MIDI_BASE_H
+#ifndef GL_BLE_MIDI_BASE_H
+#define GL_BLE_MIDI_BASE_H
 
 #include <NimBLEDevice.h>
 #include <functional>
 #include "Midi.h"
 
-class BLEMidi : public Midi {
+class GLBLEMidi : public Midi {
 public:
     virtual void begin(const std::string deviceName);
     void end();

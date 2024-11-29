@@ -1,8 +1,8 @@
-#include "BLEMidiServer.h"
+#include "GLBLEMidiServer.h"
 
-void BLEMidiServerClass::begin(const std::string deviceName)
+void GLBLEMidiServerClass::begin(const std::string deviceName)
 {
-    BLEMidi::begin(deviceName);
+    GLBLEMidi::begin(deviceName);
     BLEServer *pServer = BLEDevice::createServer();
     pServer->setCallbacks(this);
     BLEService *pService = pServer->createService(BLEUUID(MIDI_SERVICE_UUID));
@@ -20,16 +20,16 @@ void BLEMidiServerClass::begin(const std::string deviceName)
              }
         )
     );
-    
+
     pService->start();
     BLEAdvertising *pAdvertising = pServer->getAdvertising();
     pAdvertising->addServiceUUID(pService->getUUID());
     pAdvertising->start();
 }
 
-void BLEMidiServerClass::begin(const std::string deviceName, CharacteristicCallback *pCharacteristicCallback)
+void GLBLEMidiServerClass::begin(const std::string deviceName, CharacteristicCallback *pCharacteristicCallback)
 {
-    BLEMidi::begin(deviceName);
+    GLBLEMidi::begin(deviceName);
     BLEServer *pServer = BLEDevice::createServer();
     pServer->setCallbacks(this);
     BLEService *pService = pServer->createService(BLEUUID(MIDI_SERVICE_UUID));
@@ -47,17 +47,17 @@ void BLEMidiServerClass::begin(const std::string deviceName, CharacteristicCallb
     pAdvertising->start();
 }
 
-void BLEMidiServerClass::setOnConnectCallback(void (*const onConnectCallback)())
+void GLBLEMidiServerClass::setOnConnectCallback(void (*const onConnectCallback)())
 {
     this->onConnectCallback = onConnectCallback;
 }
 
-void BLEMidiServerClass::setOnDisconnectCallback(void (*const onDisconnectCallback)())
+void GLBLEMidiServerClass::setOnDisconnectCallback(void (*const onDisconnectCallback)())
 {
     this->onDisconnectCallback = onDisconnectCallback;
 }
 
-void BLEMidiServerClass::sendPacket(uint8_t *packet, uint8_t packetSize)
+void GLBLEMidiServerClass::sendPacket(uint8_t *packet, uint8_t packetSize)
 {
     if(!connected)
         return;
@@ -65,14 +65,14 @@ void BLEMidiServerClass::sendPacket(uint8_t *packet, uint8_t packetSize)
     pCharacteristic->notify();
 }
 
-void BLEMidiServerClass::onConnect(BLEServer* pServer)
+void GLBLEMidiServerClass::onConnect(BLEServer* pServer)
 {
     connected = true;
     if(onConnectCallback != nullptr)
         onConnectCallback();
 }
 
-void BLEMidiServerClass::onDisconnect(BLEServer* pServer)
+void GLBLEMidiServerClass::onDisconnect(BLEServer* pServer)
 {
     connected = false;
     if(onDisconnectCallback != nullptr)
@@ -94,4 +94,4 @@ void CharacteristicCallback::onWrite(BLECharacteristic *pCharacteristic)
 
 }
 
-BLEMidiServerClass BLEMidiServer;
+GLBLEMidiServerClass GLBLEMidiServer;

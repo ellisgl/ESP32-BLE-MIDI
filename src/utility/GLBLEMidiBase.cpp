@@ -1,17 +1,17 @@
 #include <Arduino.h>
-#include "BLEMidiBase.h"
+#include "GLBLEMidiBase.h"
 
-void BLEMidi::begin(const std::string deviceName)
+void GLBLEMidi::begin(const std::string deviceName)
 {
     this->deviceName = deviceName;
     BLEDevice::init(deviceName);
 }
 
-void BLEMidi::end() {
+void GLBLEMidi::end() {
     BLEDevice::deinit();
 }
 
-bool BLEMidi::isConnected()
+bool GLBLEMidi::isConnected()
 {
     return connected;
 }

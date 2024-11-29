@@ -1,11 +1,11 @@
-#include "BLEMidiClient.h"
+#include "GLBLEMidiClient.h"
 
-void BLEMidiClientClass::begin(const std::string deviceName)
+void GLBLEMidiClientClass::begin(const std::string deviceName)
 {
-    BLEMidi::begin(deviceName);
+    GLBLEMidi::begin(deviceName);
 }
 
-int BLEMidiClientClass::scan()
+int GLBLEMidiClientClass::scan()
 {
     debug.println("Beginning scan...");
     pBLEScan = BLEDevice::getScan();
@@ -32,7 +32,7 @@ int BLEMidiClientClass::scan()
     return foundMidiDevices.size();
 }
 
-BLEAdvertisedDevice* BLEMidiClientClass::getScannedDevice(uint32_t deviceIndex)
+BLEAdvertisedDevice* GLBLEMidiClientClass::getScannedDevice(uint32_t deviceIndex)
 {
     if(deviceIndex >= foundMidiDevices.size()) {
         debug.println("Scanned device not found because requested index is greater than the devices list");
@@ -41,7 +41,7 @@ BLEAdvertisedDevice* BLEMidiClientClass::getScannedDevice(uint32_t deviceIndex)
     return &foundMidiDevices.at(deviceIndex);
 }
 
-bool BLEMidiClientClass::connect(uint32_t deviceIndex)
+bool GLBLEMidiClientClass::connect(uint32_t deviceIndex)
 {
     debug.printf("Connecting to device number %d\n", deviceIndex);
     if(deviceIndex >= foundMidiDevices.size()) {
@@ -81,16 +81,16 @@ bool BLEMidiClientClass::connect(uint32_t deviceIndex)
     return true;
 }
 
-void BLEMidiClientClass::setOnConnectCallback(void (*const onConnectCallback)())
+void GLBLEMidiClientClass::setOnConnectCallback(void (*const onConnectCallback)())
 {
     this->onConnectCallback = onConnectCallback;
 }
-void BLEMidiClientClass::setOnDisconnectCallback(void (*const onDisconnectCallback)())
+void GLBLEMidiClientClass::setOnDisconnectCallback(void (*const onDisconnectCallback)())
 {
     this->onDisconnectCallback = onDisconnectCallback;
 }
 
-void BLEMidiClientClass::sendPacket(uint8_t *packet, uint8_t packetSize)
+void GLBLEMidiClientClass::sendPacket(uint8_t *packet, uint8_t packetSize)
 {
     if(!connected)
         return;
@@ -99,7 +99,7 @@ void BLEMidiClientClass::sendPacket(uint8_t *packet, uint8_t packetSize)
 
 ClientCallbacks::ClientCallbacks(
     bool& connected,
-    void (*onConnectCallback)(), 
+    void (*onConnectCallback)(),
     void (*onDisconnectCallback)()
 ) :     connected(connected),
         onConnectCallback(onConnectCallback),
@@ -120,4 +120,4 @@ void ClientCallbacks::onDisconnect(BLEClient *pClient)
         onDisconnectCallback();
 }
 
-BLEMidiClientClass BLEMidiClient;
+GLBLEMidiClientClass GLBLEMidiClient;

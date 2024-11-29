@@ -1,10 +1,10 @@
 #ifndef BLE_MIDI_SERVER_H
 #define BLE_MIDI_SERVER_H
 
-#include "BLEMidiBase.h"
+#include "GLBLEMidiBase.h"
 
 
-class BLEMidiServerClass : public BLEMidi, public BLEServerCallbacks {
+class GLBLEMidiServerClass : public GLBLEMidi, public BLEServerCallbacks {
 public:
     void begin(const std::string deviceName);
     void begin(const std::string deviceName, CharacteristicCallback *pCharacteristicCallback);
@@ -33,6 +33,6 @@ private:
 };
 
 
-extern BLEMidiServerClass BLEMidiServer;
+extern GLBLEMidiServerClass GLBLEMidiServer;
 
 #endif

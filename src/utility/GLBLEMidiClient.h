@@ -1,10 +1,10 @@
-#ifndef BLE_MIDI_CLIENT_H
-#define BLE_MIDI_CLIENT_H
+#ifndef GL_BLE_MIDI_CLIENT_H
+#define GL_BLE_MIDI_CLIENT_H
 
 #include <vector>
-#include "BLEMidiBase.h"
+#include "GLBLEMidiBase.h"
 
-class BLEMidiClientClass : public BLEMidi {
+class GLBLEMidiClientClass : public GLBLEMidi {
 public:
 
     /// Initializes the BLEMidiClient
@@ -13,7 +13,7 @@ public:
     /// Begins a scan, and returns the number of MIDI devices found.
     int scan();
 
-    /// Returns the nth scanned MIDI device, or nullptr in case of an error. 
+    /// Returns the nth scanned MIDI device, or nullptr in case of an error.
     /// Do not use the returned value if you perform another scan later, because it will be cleared.
     BLEAdvertisedDevice* getScannedDevice(uint32_t deviceIndex);
 
@@ -41,7 +41,7 @@ class ClientCallbacks : public BLEClientCallbacks {
 public:
     ClientCallbacks(
             bool& connected,
-            void (* const onConnectCallback)() = nullptr, 
+            void (* const onConnectCallback)() = nullptr,
             void (* const onDisconnectCallback)() = nullptr
     );
 private:
@@ -53,6 +53,6 @@ private:
     void (* const onDisconnectCallback)();
 };
 
-extern BLEMidiClientClass BLEMidiClient;
+extern GLBLEMidiClientClass BLEMidiClient;
 
 #endif
