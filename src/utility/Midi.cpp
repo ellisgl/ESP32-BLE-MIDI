@@ -128,7 +128,7 @@ void Midi::pitchBend(uint8_t channel, float semitones, float range)
 void Midi::receivePacket(uint8_t *data, uint8_t size)
 {
     debug.print("Received data : ");
-    for(uint8_t i=0; i<size; i++)
+    for(uint8_t i=0; i<size; ++i    )
         debug.printf("%x ", data[i]);
     debug.println();
 
@@ -203,7 +203,7 @@ void Midi::receivePacket(uint8_t *data, uint8_t size)
                 if(controlChangeCallback != nullptr)
                     controlChangeCallback(channel, controller, value, currentTimestamp);
                 debug.printf("Control Change, channel %d, controller %d, value %d\n", channel, controller, value);
-                
+
                 break;
             }
 
@@ -316,7 +316,7 @@ void Midi::mmcRewind(void)
 
 void Midi::sendMMC(mmc_t command)
 {
-    switch(command) 
+    switch(command)
     {
         case MMC_STOP:
         case MMC_PLAY:

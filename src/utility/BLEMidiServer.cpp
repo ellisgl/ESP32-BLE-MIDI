@@ -13,7 +13,34 @@ void BLEMidiServerClass::begin(const std::string deviceName)
         NIMBLE_PROPERTY::NOTIFY |
         NIMBLE_PROPERTY::WRITE_NR
     );
-    pCharacteristic->setCallbacks(new CharacteristicCallback([this](uint8_t *data, uint8_t size) { this->receivePacket(data, size); }));
+    pCharacteristic->setCallbacks(
+        new CharacteristicCallback(
+            [this](uint8_t *data, uint8_t size) {
+                this->receivePacket(data, size);
+             }
+        )
+    );
+    
+    pService->start();
+    BLEAdvertising *pAdvertising = pServer->getAdvertising();
+    pAdvertising->addServiceUUID(pService->getUUID());
+    pAdvertising->start();
+}
+
+void BLEMidiServerClass::begin(const std::string deviceName, CharacteristicCallback *pCharacteristicCallback)
+{
+    BLEMidi::begin(deviceName);
+    BLEServer *pServer = BLEDevice::createServer();
+    pServer->setCallbacks(this);
+    BLEService *pService = pServer->createService(BLEUUID(MIDI_SERVICE_UUID));
+    pCharacteristic = pService->createCharacteristic(
+        BLEUUID(MIDI_CHARACTERISTIC_UUID),
+        NIMBLE_PROPERTY::READ   |
+        NIMBLE_PROPERTY::WRITE  |
+        NIMBLE_PROPERTY::NOTIFY |
+        NIMBLE_PROPERTY::WRITE_NR
+    );
+    pCharacteristic->setCallbacks(pCharacteristicCallback);
     pService->start();
     BLEAdvertising *pAdvertising = pServer->getAdvertising();
     pAdvertising->addServiceUUID(pService->getUUID());

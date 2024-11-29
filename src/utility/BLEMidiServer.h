@@ -7,17 +7,17 @@
 class BLEMidiServerClass : public BLEMidi, public BLEServerCallbacks {
 public:
     void begin(const std::string deviceName);
-
+    void begin(const std::string deviceName, CharacteristicCallback *pCharacteristicCallback);
     void setOnConnectCallback(void (*const onConnectCallback)());
     void setOnDisconnectCallback(void (*const onDisconnectCallback)());
-    
-    
+
+
 
 private:
     virtual void sendPacket(uint8_t *packet, uint8_t packetSize) override;
     void onConnect(BLEServer* pServer) override;
     void onDisconnect(BLEServer* pServer) override;
-    
+
     void (*onConnectCallback)() = nullptr;
     void (*onDisconnectCallback)() = nullptr;
     BLECharacteristic* pCharacteristic = nullptr;
