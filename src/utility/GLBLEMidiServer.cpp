@@ -1,5 +1,19 @@
 #include "GLBLEMidiServer.h"
 
+CharacteristicCallback::CharacteristicCallback(std::function<void(uint8_t*, uint8_t)> onWriteCallback) : onWriteCallback(onWriteCallback) {}
+
+void CharacteristicCallback::onWrite(BLECharacteristic *pCharacteristic)
+{
+    std::string rxValue = pCharacteristic->getValue();
+
+    if (rxValue.length() > 0 && onWriteCallback != nullptr)
+        onWriteCallback((uint8_t*)rxValue.c_str(), rxValue.length());
+
+    vTaskDelay(0);      // We leave some time for the IDLE task call esp_task_wdt_reset_watchdog
+                        // See comment from atanisoft here : https://github.com/espressif/arduino-esp32/issues/2493
+
+}
+
 void GLBLEMidiServerClass::begin(const std::string deviceName)
 {
     GLBLEMidi::begin(deviceName);
@@ -78,20 +92,6 @@ void GLBLEMidiServerClass::onDisconnect(BLEServer* pServer)
     if(onDisconnectCallback != nullptr)
         onDisconnectCallback();
     pServer->startAdvertising();
-}
-
-CharacteristicCallback::CharacteristicCallback(std::function<void(uint8_t*, uint8_t)> onWriteCallback) : onWriteCallback(onWriteCallback) {}
-
-void CharacteristicCallback::onWrite(BLECharacteristic *pCharacteristic)
-{
-    std::string rxValue = pCharacteristic->getValue();
-
-    if (rxValue.length() > 0 && onWriteCallback != nullptr)
-        onWriteCallback((uint8_t*)rxValue.c_str(), rxValue.length());
-
-    vTaskDelay(0);      // We leave some time for the IDLE task call esp_task_wdt_reset_watchdog
-                        // See comment from atanisoft here : https://github.com/espressif/arduino-esp32/issues/2493
-
 }
 
 GLBLEMidiServerClass GLBLEMidiServer;
